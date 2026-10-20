@@ -20,6 +20,10 @@ Route::middleware('guest')->group(function () {
         ->name('login.store');
 });
 
+// Public portfolio viewing — login is not required.
+Route::get('/p/{token}', [PortfolioController::class, 'showPublic'])
+    ->name('portfolios.public');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -28,7 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
-    // Portfolio management
     Route::get('/portfolios', [PortfolioController::class, 'index'])
         ->name('portfolios.index');
 
@@ -37,4 +40,4 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/portfolios', [PortfolioController::class, 'store'])
         ->name('portfolios.store');
-});
+}); 

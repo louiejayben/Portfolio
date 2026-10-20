@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portfolio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -74,7 +75,6 @@ class PortfolioController extends Controller
         unset($validated['photo']);
 
         // Associate the portfolio with the logged-in user.
-        // Never accept user_id directly from the form.
         auth()->user()->portfolios()->create([
             ...$validated,
             'photo_path' => $photoPath,
@@ -84,5 +84,17 @@ class PortfolioController extends Controller
         return redirect()
             ->route('portfolios.index')
             ->with('success', 'Your portfolio was saved successfully!');
+    }
+
+    /**
+     * Display a portfolio through its public sharing token.
+     * This route will be available without requiring login.
+     */
+    public function showPublic(string $token)
+    {
+        $portfolio = Portfolio::where('public_token', $token)
+            ->firstOrFail();
+
+        return view('portfolios.public', compact('portfolio'));
     }
 }

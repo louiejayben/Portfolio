@@ -71,7 +71,7 @@
 
         .button {
             display: inline-block;
-            padding: 13px 18px;
+            padding: 12px 16px;
             border: 1px solid #dfff9a;
             border-radius: 7px;
             background: #dfff9a;
@@ -85,14 +85,18 @@
             text-decoration: none;
         }
 
+        .button.secondary {
+            background: transparent;
+            color: #dfff9a;
+        }
+
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
 
-        .card,
-        .empty {
+        .card, .empty {
             padding: 25px;
             border: 1px solid #292929;
             border-radius: 12px;
@@ -121,18 +125,46 @@
         }
 
         .date {
-            font-size: 12px;
             color: #777;
+            font-size: 12px;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .share-url {
+            margin-top: 18px;
+            padding: 12px;
+            border: 1px solid #303030;
+            border-radius: 7px;
+            background: #101010;
+        }
+
+        .share-url label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .share-url input {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #393939;
+            border-radius: 5px;
+            background: #202020;
+            color: #dfff9a;
+            font-size: 12px;
         }
 
         .empty {
             grid-column: 1 / -1;
             padding: 45px 20px;
             text-align: center;
-        }
-
-        .empty h2 {
-            margin-top: 0;
         }
 
         .empty p {
@@ -146,8 +178,8 @@
             padding: 13px 16px;
             border: 1px solid #465b2b;
             border-radius: 7px;
-            color: #dfff9a;
             background: #182012;
+            color: #dfff9a;
         }
 
         @media (max-width: 600px) {
@@ -173,7 +205,7 @@
             <div>
                 <h1>My Portfolios</h1>
                 <p class="subtitle">
-                    View the portfolios you've created and manage your work.
+                    View and share the portfolios you've created.
                 </p>
             </div>
 
@@ -200,18 +232,49 @@
                     </span>
 
                     <p class="date">
-                        Created
-                        {{ $portfolio->created_at->format('M d, Y') }}
+                        Created {{ $portfolio->created_at->format('M d, Y') }}
                     </p>
+
+                    <div class="card-actions">
+                        <a
+                            class="button"
+                            href="{{ route('portfolios.public', $portfolio->public_token) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            View Portfolio
+                        </a>
+
+                        <button
+                            class="button secondary"
+                            type="button"
+                            onclick="copyPortfolioLink('{{ route('portfolios.public', $portfolio->public_token) }}', this)"
+                        >
+                            Copy Share Link
+                        </button>
+                    </div>
+
+                    <div class="share-url">
+                        <label for="share-{{ $portfolio->id }}">
+                            Public sharing URL
+                        </label>
+
+                        <input
+                            id="share-{{ $portfolio->id }}"
+                            type="text"
+                            readonly
+                            value="{{ route('portfolios.public', $portfolio->public_token) }}"
+                            onclick="this.select()"
+                        >
+                    </div>
                 </article>
             @empty
                 <section class="empty">
                     <h2>No portfolios yet</h2>
 
                     <p>
-                        Start building your professional portfolio by
-                        adding your personal information, education,
-                        skills, projects, and experience.
+                        Create your first portfolio to showcase your
+                        education, skills, projects, and experience.
                     </p>
 
                     <a
@@ -224,5 +287,29 @@
             @endforelse
         </div>
     </main>
+
+    <script>
+        async function copyPortfolioLink(url, button) {
+            try {
+                await navigator.clipboard.writeText(url);
+                button.textContent = 'Link Copied!';
+            } catch (error) {
+                const input = button.closest('.card')
+                    .querySelector('.share-url input');
+
+                input.focus();
+                input.select();
+
+                const copied = document.execCommand('copy');
+                button.textContent = copied
+                    ? 'Link Copied!'
+                    : 'Select URL to Copy';
+            }
+
+            setTimeout(() => {
+                button.textContent = 'Copy Share Link';
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
