@@ -1,19 +1,18 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PortfolioController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
 Route::middleware('guest')->group(function () {
-    // Registration
     Route::get('/register', [AuthController::class, 'showRegister'])
         ->name('register');
 
     Route::post('/register', [AuthController::class, 'register'])
         ->name('register.store');
 
-    // Login
     Route::get('/login', [AuthController::class, 'showLogin'])
         ->name('login');
 
@@ -21,7 +20,6 @@ Route::middleware('guest')->group(function () {
         ->name('login.store');
 });
 
-// Pages that require an authenticated user
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -29,4 +27,14 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
+
+    // Portfolio management
+    Route::get('/portfolios', [PortfolioController::class, 'index'])
+        ->name('portfolios.index');
+
+    Route::get('/portfolios/create', [PortfolioController::class, 'create'])
+        ->name('portfolios.create');
+
+    Route::post('/portfolios', [PortfolioController::class, 'store'])
+        ->name('portfolios.store');
 });

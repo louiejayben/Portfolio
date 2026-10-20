@@ -98,7 +98,32 @@
             color: #dfff9a;
             font-size: 13px;
         }
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
 
+.action-button {
+    display: inline-block;
+    padding: 13px 18px;
+    border: 1px solid #dfff9a;
+    border-radius: 7px;
+    background: #dfff9a;
+    color: #111;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.action-button.secondary {
+    background: transparent;
+    color: #dfff9a;
+}
+
+.action-button:hover {
+    opacity: 0.85;
+}
         @media (max-width: 600px) {
             nav {
                 padding: 18px 5%;
@@ -139,15 +164,28 @@
         </section>
 
         <section class="panel">
-            <h2>Your Portfolio Workspace</h2>
+    <h2>Your Portfolio Workspace</h2>
 
-            <p>
-                Your account is ready. The next step is to build
-                your portfolio creation and management features.
-            </p>
+    <p>
+        Create your professional portfolio, manage your saved
+        information, and prepare your work for sharing with employers.
+    </p>
 
-            <span class="status">Account authenticated</span>
-        </section>
-    </main>
-</body>
-</html>
+    <span class="status">Account authenticated</span>
+
+    <div class="actions">
+        <a
+            href="{{ route('portfolios.create') }}"
+            class="action-button"
+        >
+            + Create Portfolio
+        </a>
+
+        <a
+            href="{{ route('portfolios.index') }}"
+            class="action-button secondary"
+        >
+            My Portfolios
+        </a>
+    </div>
+</section>
