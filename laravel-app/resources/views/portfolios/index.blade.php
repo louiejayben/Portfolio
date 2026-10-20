@@ -71,13 +71,17 @@
 
         .button {
             display: inline-block;
-            padding: 12px 16px;
+            padding: 11px 15px;
             border: 1px solid #dfff9a;
             border-radius: 7px;
             background: #dfff9a;
             color: #111;
+            font-family: inherit;
+            font-size: 13px;
             font-weight: 700;
+            text-align: center;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .button:hover {
@@ -90,13 +94,25 @@
             color: #dfff9a;
         }
 
+        .button.danger {
+            border-color: #813b3b;
+            background: transparent;
+            color: #ffaaaa;
+        }
+
+        .button.danger:hover {
+            background: #301919;
+        }
+
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
 
-        .card, .empty {
+        .card,
+        .empty {
+            min-width: 0;
             padding: 25px;
             border: 1px solid #292929;
             border-radius: 12px;
@@ -132,8 +148,13 @@
         .card-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 22px;
+            gap: 9px;
+            margin-top: 20px;
+        }
+
+        .card-actions form {
+            display: inline;
+            margin: 0;
         }
 
         .share-url {
@@ -205,7 +226,7 @@
             <div>
                 <h1>My Portfolios</h1>
                 <p class="subtitle">
-                    View and share the portfolios you've created.
+                    View, edit, delete, and share your portfolios.
                 </p>
             </div>
 
@@ -245,13 +266,36 @@
                             View Portfolio
                         </a>
 
+                        <a
+                            class="button secondary"
+                            href="{{ route('portfolios.edit', $portfolio->id) }}"
+                        >
+                            Edit
+                        </a>
+
                         <button
                             class="button secondary"
                             type="button"
-                            onclick="copyPortfolioLink('{{ route('portfolios.public', $portfolio->public_token) }}', this)"
+                            onclick="copyPortfolioLink(
+                                {{ \Illuminate\Support\Js::from(route('portfolios.public', $portfolio->public_token)) }},
+                                this
+                            )"
                         >
                             Copy Share Link
                         </button>
+
+                        <form
+                            method="POST"
+                            action="{{ route('portfolios.destroy', $portfolio->id) }}"
+                            onsubmit="return confirm('Are you sure you want to permanently delete this portfolio? This cannot be undone.')"
+                        >
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="button danger" type="submit">
+                                Delete
+                            </button>
+                        </form>
                     </div>
 
                     <div class="share-url">
