@@ -540,22 +540,29 @@
                 <div class="field">
                     <label for="template">Portfolio Template *</label>
 
-                    <select id="template" name="template" required>
-                        <option
-                            value="modern"
-                            {{ old('template', $portfolio->template) === 'modern' ? 'selected' : '' }}
-                        >Modern</option>
+                    @php
+    $currentTemplate = old('template', [
+        'classic' => 'simple',
+        'minimal' => 'creative',
+    ][$portfolio->template] ?? $portfolio->template);
+@endphp
 
-                        <option
-                            value="classic"
-                            {{ old('template', $portfolio->template) === 'classic' ? 'selected' : '' }}
-                        >Classic</option>
+<select id="template" name="template" required>
+    <option value="simple"
+        {{ $currentTemplate === 'simple' ? 'selected' : '' }}>
+        Simple
+    </option>
 
-                        <option
-                            value="minimal"
-                            {{ old('template', $portfolio->template) === 'minimal' ? 'selected' : '' }}
-                        >Minimal</option>
-                    </select>
+    <option value="modern"
+        {{ $currentTemplate === 'modern' ? 'selected' : '' }}>
+        Modern
+    </option>
+
+    <option value="creative"
+        {{ $currentTemplate === 'creative' ? 'selected' : '' }}>
+        Creative
+    </option>
+</select>
 
                     @error('template')
                         <div class="error">{{ $message }}</div>

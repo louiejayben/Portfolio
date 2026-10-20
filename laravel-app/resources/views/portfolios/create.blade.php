@@ -489,27 +489,21 @@ nav a:hover {
                 <div class="field">
                     <label for="template">Portfolio Template *</label>
                     <select id="template" name="template" required>
-                        <option
-                            value="modern"
-                            {{ old('template', 'modern') === 'modern' ? 'selected' : '' }}
-                        >
-                            Modern
-                        </option>
+    <option value="simple"
+        {{ old('template') === 'simple' ? 'selected' : '' }}>
+        Simple
+    </option>
 
-                        <option
-                            value="classic"
-                            {{ old('template') === 'classic' ? 'selected' : '' }}
-                        >
-                            Classic
-                        </option>
+    <option value="modern"
+        {{ old('template', 'modern') === 'modern' ? 'selected' : '' }}>
+        Modern
+    </option>
 
-                        <option
-                            value="minimal"
-                            {{ old('template') === 'minimal' ? 'selected' : '' }}
-                        >
-                            Minimal
-                        </option>
-                    </select>
+    <option value="creative"
+        {{ old('template') === 'creative' ? 'selected' : '' }}>
+        Creative
+    </option>
+</select>
                     @error('template')
                         <div class="error">{{ $message }}</div>
                     @enderror

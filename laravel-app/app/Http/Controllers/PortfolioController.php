@@ -58,7 +58,7 @@ class PortfolioController extends Controller
             'linkedin' => ['nullable', 'url', 'max:2048'],
             'github' => ['nullable', 'url', 'max:2048'],
 
-            'template' => ['required', 'in:modern,classic,minimal'],
+            'template' => ['required', 'in:simple,modern,creative'],
         ]);
 
         $photoPath = null;
@@ -126,7 +126,7 @@ class PortfolioController extends Controller
             'linkedin' => ['nullable', 'url', 'max:2048'],
             'github' => ['nullable', 'url', 'max:2048'],
 
-            'template' => ['required', 'in:modern,classic,minimal'],
+            'template' => ['required', 'in:simple,modern,creative'],
         ]);
 
         unset($validated['photo']);
