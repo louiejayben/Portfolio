@@ -27,23 +27,26 @@
             border-bottom: 1px solid #292929;
         }
 
-        .brand {
-            color: #dfff9a;
-            font-size: 14px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-        }
+        .nav-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 
-        nav a {
-            color: #ddd;
-            text-decoration: none;
-            font-size: 14px;
-        }
+nav a {
+    display: inline-block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #ddd;
+    font-size: 14px;
+    text-decoration: none;
+}
 
-        nav a:hover {
-            color: #dfff9a;
-        }
-
+nav a:hover {
+    background: #242a1b;
+    color: #dfff9a;
+}
         main {
             width: 92%;
             max-width: 950px;
@@ -180,34 +183,53 @@
         }
 
         @media (max-width: 650px) {
-            nav {
-                padding: 18px 5%;
-            }
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 18px 5%;
+    }
 
-            main {
-                margin: 26px auto;
-            }
+    .nav-links {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
 
-            form {
-                padding: 21px;
-            }
+    .nav-links a {
+        padding: 9px;
+        font-size: 13px;
+    }
 
-            .grid {
-                grid-template-columns: 1fr;
-            }
+    main {
+        margin: 26px auto;
+    }
 
-            .full {
-                grid-column: auto;
-            }
-        }
+    form {
+        padding: 21px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+}
     </style>
 </head>
 
 <body>
     <nav>
-        <div class="brand">PORTFOLIO GENERATOR</div>
+    <div class="brand">PORTFOLIO GENERATOR</div>
+
+    <div class="nav-links">
         <a href="{{ route('dashboard') }}">← Dashboard</a>
-    </nav>
+        <a href="{{ route('portfolios.index') }}">My Portfolios</a>
+    </div>
+</nav>
 
     <main>
         <header class="heading">

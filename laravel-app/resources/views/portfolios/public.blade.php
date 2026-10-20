@@ -48,10 +48,58 @@
         }
 
         .topbar {
-            padding: 18px 6%;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface);
-        }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 18px 6%;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.topbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.back-button,
+.print-button {
+    display: inline-block;
+    padding: 9px 13px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.back-button:hover,
+.print-button:hover {
+    background: var(--accent);
+    color: #111;
+}
+
+@media (max-width: 600px) {
+    .topbar {
+        padding: 15px 5%;
+    }
+
+    .topbar-actions {
+        width: 100%;
+    }
+}
+
+@media print {
+    .topbar-actions {
+        display: none;
+    }
+}
 
         .brand {
             color: var(--accent);
@@ -224,9 +272,27 @@
 
 <body class="template-{{ $portfolio->template }}">
 
-    <header class="topbar">
-        <div class="brand">PORTFOLIO GENERATOR</div>
-    </header>
+   <header class="topbar">
+    <div class="brand">PORTFOLIO GENERATOR</div>
+
+    <div class="topbar-actions">
+        <button
+            type="button"
+            class="back-button"
+            onclick="goBack()"
+        >
+            ← Back
+        </button>
+
+        <button
+            type="button"
+            class="print-button"
+            onclick="window.print()"
+        >
+            Print / Save PDF
+        </button>
+    </div>
+</header>
 
     <main class="container">
 
@@ -361,5 +427,15 @@
         </footer>
 
     </main>
+    <script>
+    function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // No previous page in this tab; stay on the public portfolio.
+            window.location.reload();
+        }
+    }
+</script>
 </body>
 </html>

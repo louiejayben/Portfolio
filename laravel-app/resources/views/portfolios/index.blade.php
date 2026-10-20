@@ -33,6 +33,27 @@
             font-size: 14px;
             letter-spacing: 1.5px;
         }
+        .nav-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #ddd;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: #242a1b;
+    color: #dfff9a;
+}
 
         a {
             color: #dfff9a;
@@ -204,22 +225,46 @@
         }
 
         @media (max-width: 600px) {
-            nav {
-                padding: 18px 5%;
-            }
+    nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 5%;
+    }
 
-            main {
-                margin-top: 30px;
-            }
-        }
+    .nav-links {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .nav-links a {
+        padding: 9px;
+        font-size: 13px;
+    }
+
+    main {
+        margin-top: 30px;
+    }
+}
     </style>
 </head>
 
 <body>
     <nav>
-        <div class="brand">PORTFOLIO GENERATOR</div>
-        <a href="{{ route('dashboard') }}">← Dashboard</a>
-    </nav>
+    <div class="brand">PORTFOLIO GENERATOR</div>
+
+    <div class="nav-links">
+        <a href="{{ route('dashboard') }}">Dashboard</a>
+
+        <a href="{{ route('portfolios.create') }}">
+            + Create Portfolio
+        </a>
+
+        <a href="{{ route('portfolios.index') }}" class="active">
+            My Portfolios
+        </a>
+    </div>
+</nav>
 
     <main>
         <header class="heading">
@@ -258,14 +303,11 @@
 
                     <div class="card-actions">
                         <a
-                            class="button"
-                            href="{{ route('portfolios.public', $portfolio->public_token) }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            View Portfolio
-                        </a>
-
+    class="button"
+    href="{{ route('portfolios.public', $portfolio->public_token) }}"
+>
+    View Portfolio
+</a>
                         <a
                             class="button secondary"
                             href="{{ route('portfolios.edit', $portfolio->id) }}"

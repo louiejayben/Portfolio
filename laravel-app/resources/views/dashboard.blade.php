@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,8 @@
             align-items: center;
             justify-content: space-between;
             gap: 20px;
-            padding: 20px 6%;
+            flex-wrap: wrap;
+            padding: 18px 5%;
             border-bottom: 1px solid #292929;
             background: #141414;
         }
@@ -33,14 +35,41 @@
             font-size: 14px;
             font-weight: 800;
             letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            padding: 10px 12px;
+            border-radius: 6px;
+            color: #ddd;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #242a1b;
+            color: #dfff9a;
+        }
+
+        .logout-form {
+            margin: 0;
         }
 
         .logout {
-            padding: 10px 16px;
+            padding: 10px 14px;
             border: 1px solid #444;
             border-radius: 7px;
             background: transparent;
-            color: white;
+            color: #eee;
+            font-size: 14px;
             cursor: pointer;
         }
 
@@ -52,7 +81,19 @@
         main {
             width: 90%;
             max-width: 1050px;
-            margin: 60px auto;
+            margin: 55px auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #dfff9a;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
 
         .welcome {
@@ -60,11 +101,13 @@
         }
 
         .welcome h1 {
-            margin-bottom: 10px;
+            margin: 0 0 10px;
             font-size: clamp(28px, 5vw, 42px);
+            overflow-wrap: anywhere;
         }
 
-        .welcome p {
+        .welcome p,
+        .panel p {
             color: #aaa;
             line-height: 1.7;
         }
@@ -84,11 +127,6 @@
             margin-top: 0;
         }
 
-        .panel p {
-            color: #aaa;
-            line-height: 1.7;
-        }
-
         .status {
             display: inline-block;
             margin-top: 12px;
@@ -98,43 +136,57 @@
             color: #dfff9a;
             font-size: 13px;
         }
-.actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 24px;
-}
 
-.action-button {
-    display: inline-block;
-    padding: 13px 18px;
-    border: 1px solid #dfff9a;
-    border-radius: 7px;
-    background: #dfff9a;
-    color: #111;
-    font-weight: 700;
-    text-decoration: none;
-}
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
 
-.action-button.secondary {
-    background: transparent;
-    color: #dfff9a;
-}
+        .action-button {
+            display: inline-block;
+            padding: 13px 18px;
+            border: 1px solid #dfff9a;
+            border-radius: 7px;
+            background: #dfff9a;
+            color: #111;
+            font-weight: 700;
+            text-decoration: none;
+        }
 
-.action-button:hover {
-    opacity: 0.85;
-}
-        @media (max-width: 600px) {
+        .action-button.secondary {
+            background: transparent;
+            color: #dfff9a;
+        }
+
+        .action-button:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 650px) {
             nav {
+                align-items: flex-start;
+                flex-direction: column;
                 padding: 18px 5%;
             }
 
+            .nav-links {
+                width: 100%;
+                gap: 5px;
+            }
+
+            .nav-links a {
+                padding: 9px;
+                font-size: 13px;
+            }
+
             main {
-                margin-top: 35px;
+                margin: 32px auto;
             }
 
             .panel {
-                padding: 24px;
+                padding: 23px;
             }
         }
     </style>
@@ -144,13 +196,33 @@
     <nav>
         <div class="brand">PORTFOLIO GENERATOR</div>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="logout" type="submit">Log Out</button>
-        </form>
+        <div class="nav-links">
+            <a href="{{ route('dashboard') }}" class="active">Dashboard</a>
+
+            <a href="{{ route('portfolios.create') }}">
+                Create Portfolio
+            </a>
+
+            <a href="{{ route('portfolios.index') }}">
+                My Portfolios
+            </a>
+
+            <form
+                class="logout-form"
+                method="POST"
+                action="{{ route('logout') }}"
+            >
+                @csrf
+                <button class="logout" type="submit">Log Out</button>
+            </form>
+        </div>
     </nav>
 
     <main>
+        <a class="back-link" href="{{ route('dashboard') }}">
+            ← Dashboard Home
+        </a>
+
         <section class="welcome">
             <h1>
                 Welcome back,
@@ -158,34 +230,37 @@
             </h1>
 
             <p>
-                Manage your account and get ready to showcase
-                your skills, education, projects, and experience.
+                Manage your account and showcase your skills,
+                education, projects, and experience.
             </p>
         </section>
 
         <section class="panel">
-    <h2>Your Portfolio Workspace</h2>
+            <h2>Your Portfolio Workspace</h2>
 
-    <p>
-        Create your professional portfolio, manage your saved
-        information, and prepare your work for sharing with employers.
-    </p>
+            <p>
+                Create your professional portfolio, manage your saved
+                information, and prepare your work for sharing with employers.
+            </p>
 
-    <span class="status">Account authenticated</span>
+            <span class="status">Account authenticated</span>
 
-    <div class="actions">
-        <a
-            href="{{ route('portfolios.create') }}"
-            class="action-button"
-        >
-            + Create Portfolio
-        </a>
+            <div class="actions">
+                <a
+                    href="{{ route('portfolios.create') }}"
+                    class="action-button"
+                >
+                    + Create Portfolio
+                </a>
 
-        <a
-            href="{{ route('portfolios.index') }}"
-            class="action-button secondary"
-        >
-            My Portfolios
-        </a>
-    </div>
-</section>
+                <a
+                    href="{{ route('portfolios.index') }}"
+                    class="action-button secondary"
+                >
+                    My Portfolios
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

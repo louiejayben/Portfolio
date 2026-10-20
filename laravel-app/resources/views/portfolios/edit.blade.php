@@ -34,6 +34,27 @@
             font-weight: 800;
             letter-spacing: 1.5px;
         }
+        .nav-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #ddd;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: #242a1b;
+    color: #dfff9a;
+}
 
         nav a,
         .secondary {
@@ -189,9 +210,21 @@
         }
 
         @media (max-width: 650px) {
-            nav {
-                padding: 18px 5%;
-            }
+           nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 5%;
+}
+
+.nav-links {
+    width: 100%;
+    gap: 5px;
+}
+
+.nav-links a {
+    padding: 9px;
+    font-size: 13px;
+}
 
             main {
                 margin: 26px auto;
@@ -215,9 +248,20 @@
 
 <body>
     <nav>
-        <div class="brand">PORTFOLIO GENERATOR</div>
-        <a href="{{ route('portfolios.index') }}">← My Portfolios</a>
-    </nav>
+    <div class="brand">PORTFOLIO GENERATOR</div>
+
+    <div class="nav-links">
+        <a href="{{ route('dashboard') }}">Dashboard</a>
+
+        <a href="{{ route('portfolios.create') }}">
+            + Create Portfolio
+        </a>
+
+        <a href="{{ route('portfolios.index') }}" class="active">
+            ← My Portfolios
+        </a>
+    </div>
+</nav>
 
     <main>
         <header class="heading">
